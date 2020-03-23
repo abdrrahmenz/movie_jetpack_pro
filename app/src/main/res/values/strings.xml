@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="movies">Movies</string>
+    <string name="tvshows">TV Shows</string>
+    <string name="favorite">Favorites</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Title</string>
+    <string name="dateline">date</string>
+    <string name="description">description</string>
+    <string name="overview">Overview</string>
+    <string name="title_activity_details">Details</string>
+    <string name="release">Release</string>
+    <string name="descDetail">Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night\'s Watch, is all that stands between the realms of men and icy horrors beyond.</string>
+    <string name="releaseDateDetails">October 3, 2018</string>
+    <string name="titleDetails">Game of Thrones (2011)</string>
+    <string name="title_activity_detail_tv_shows">DetailTvShowsActivity</string>
+</resources>
