@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,10 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.abdurrahman.movies.R;
-import com.abdurrahman.movies.data.source.local.entity.TVShowEntity;
 import com.abdurrahman.movies.viewmodel.TVShowsViewModel;
 import com.abdurrahman.movies.viewmodel.ViewModelFactory;
-import com.google.android.material.snackbar.Snackbar;
 
 public class FavoriteTvShowFragment extends Fragment {
 
@@ -30,10 +27,6 @@ public class FavoriteTvShowFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TVShowsViewModel viewModel;
-
-    public static FavoriteTvShowFragment newInstance() {
-        return new FavoriteTvShowFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -80,41 +73,11 @@ public class FavoriteTvShowFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter);
-
-
-            //Memberikan aksi untuk swipe
-            itemTouchHelper.attachToRecyclerView(recyclerView);
-
         }
     }
 
-    private ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
-        @Override
-        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-            return makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        }
-
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return true;
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            if (getView() != null) {
-                int swipedPosition = viewHolder.getAdapterPosition();
-                TVShowEntity moviesEntity = adapter.getItemById(swipedPosition);
-                viewModel.setBookmark(moviesEntity);
-                Snackbar snackbar = Snackbar.make(getView(), "Batalkan menghapus item sebelumnya?", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Ok", v -> viewModel.setBookmark(moviesEntity));
-                snackbar.show();
-            }
-        }
-    });
-
     @NonNull
     private TVShowsViewModel obtainViewModel(FragmentActivity activity) {
-        // Use a Factory to inject dependencies into the ViewModel
         ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
         return ViewModelProviders.of(activity, factory).get(TVShowsViewModel.class);
     }

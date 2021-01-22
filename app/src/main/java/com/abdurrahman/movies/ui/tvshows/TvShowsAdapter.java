@@ -66,7 +66,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<TvShowsAdapter.TvShowsV
         return getListTvShows().size();
     }
 
-    class TvShowsViewHolder extends RecyclerView.ViewHolder {
+    static class TvShowsViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle;
         final TextView tvDescription;
         final TextView tvDate;

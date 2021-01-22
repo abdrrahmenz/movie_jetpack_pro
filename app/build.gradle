@@ -29,6 +29,7 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    buildToolsVersion = '29.0.2'
 }
 
 dependencies {
@@ -78,6 +79,8 @@ dependencies {
     androidTestImplementation "junit:junit:$junitVersion"
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+    androidTestImplementation ("com.squareup.okhttp3:mockwebserver:$okHttpVersion")
+    androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
 
     // Android Testing Support Library's runner and rules
     androidTestImplementation "androidx.test.ext:junit:$androidXTestVersion"

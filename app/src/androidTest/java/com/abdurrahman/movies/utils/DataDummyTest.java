@@ -11,12 +11,12 @@ public class DataDummyTest {
 
             ArrayList<MoviesEntity> movies = new ArrayList<>();
 
-            movies.add(new MoviesEntity(38700,
-                    "6.5",
-                    "Bad Boys for Life",
-                    "2020-01-15",
-                    "Marcus and Mike are forced to confront new threats, career changes, and midlife crises as they join the newly created elite team AMMO of the Miami police department to take down the ruthless Armando Armas, the vicious leader of a Miami drug cartel.",
-                    "/y95lQLnuNKdPAzw9F9Ab8kJ80c3.jpg",null));
+            movies.add(new MoviesEntity(464052,
+                    "7.1",
+                    "Wonder Woman 1984",
+                    "2020-12-16",
+                    "Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah.",
+                    "/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",null));
             movies.add(new MoviesEntity(429203,
                     "6.4",
                     "The Old Man & the Gun",
@@ -36,12 +36,12 @@ public class DataDummyTest {
 
             ArrayList<TVShowEntity> tvShows = new ArrayList<>();
 
-            tvShows.add(new TVShowEntity(456,
-                    "7.2",
-                    "The Simpsons",
-                    "1989-12-17",
-                    "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
-                    "/qcr9bBY6MVeLzriKCmJOv1562uY.jpg",null));
+            tvShows.add(new TVShowEntity(1399,
+                    "8.4",
+                    "Game of Thrones",
+                    "2011-04-17",
+                    "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+                    "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",null));
             tvShows.add(new TVShowEntity(384018,
                     "6.6",
                     "Fast & Furious Presents: Hobbs & Shaw",

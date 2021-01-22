@@ -11,11 +11,6 @@ import java.util.List;
 
 public interface MoviesDataSource {
 
-//    LiveData<List<MoviesEntity>> getAllMovies();
-//    LiveData<List<TVShowEntity>> getAllTVShows();
-//    LiveData<MoviesEntity> getDetailsMovies(int moviesId);
-//    LiveData<TVShowEntity> getDetailsTvShows(int tvShowsId);
-
     LiveData<Resource<List<TVShowEntity>>> getAllTVShows();
 
     LiveData<Resource<List<MoviesEntity>>> getAllMovies();

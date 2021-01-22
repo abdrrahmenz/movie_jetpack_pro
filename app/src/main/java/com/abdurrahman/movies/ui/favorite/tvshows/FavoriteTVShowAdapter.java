@@ -30,7 +30,7 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
         this.activity = activity;
     }
 
-    private static DiffUtil.ItemCallback<TVShowEntity> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<TVShowEntity> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<TVShowEntity>() {
                 @Override
                 public boolean areItemsTheSame(TVShowEntity oldMovie, TVShowEntity newMovie) {
@@ -43,10 +43,6 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
                     return oldMovie.equals(newMovie);
                 }
             };
-
-    public TVShowEntity getItemById(int swipedPosition) {
-        return getItem(swipedPosition);
-    }
 
     @NonNull
     @Override
@@ -73,11 +69,9 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
                 activity.startActivity(intent);
             });
         }
-
-
     }
 
-    class FavMovieViewHolder extends RecyclerView.ViewHolder {
+    static class FavMovieViewHolder extends RecyclerView.ViewHolder {
 
         final TextView tvTitle;
         final TextView tvDescription;

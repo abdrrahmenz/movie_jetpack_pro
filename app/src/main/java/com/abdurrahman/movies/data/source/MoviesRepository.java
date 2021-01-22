@@ -41,38 +41,6 @@ public class MoviesRepository implements MoviesDataSource {
         return INSTANCE;
     }
 
-    /*
-    @Override
-    public LiveData<List<MoviesEntity>> getAllMovies() {
-
-        MutableLiveData<List<MoviesEntity>> moviesResults = new MutableLiveData<>();
-        remoteRepository.getAllMovies(new RemoteRepository.LoadMoviesCallback() {
-            @Override
-            public void onAllMoviesReceived(List<MoviesResponses> moviesResponses) {
-                ArrayList<MoviesEntity> movieList = new ArrayList<>();
-                for (int i = 0; i < moviesResponses.size(); i++) {
-                    MoviesResponses response = moviesResponses.get(i);
-                    MoviesEntity movies = new MoviesEntity(
-                            response.getId(),
-                            response.getVoteAverage().toString(),
-                            response.getTitle(),
-                            response.getReleaseDate(),
-                            response.getOverview(),
-                            response.getPosterPath()
-                    );
-                    movieList.add(movies);
-                }
-                moviesResults.postValue(movieList);
-            }
-
-            @Override
-            public void onDataNotAvailable(String message) {
-
-            }
-        });
-        return moviesResults;
-    } */
-
     @Override
     public LiveData<Resource<List<MoviesEntity>>> getAllMovies() {
         return new NetworkBoundResource<List<MoviesEntity>, List<MoviesResponses>>(appExecutors) {
@@ -109,37 +77,6 @@ public class MoviesRepository implements MoviesDataSource {
             }
         }.asLiveData();
     }
-
-    /*
-    @Override
-    public LiveData<List<TVShowEntity>> getAllTVShows() {
-        MutableLiveData<List<TVShowEntity>> tvShowResults = new MutableLiveData<>();
-        remoteRepository.getAllTVShows(new RemoteRepository.LoadTVShowsCallback() {
-            @Override
-            public void onAllTVShowsReceived(List<TVShowResponses> tvShowResponses) {
-                ArrayList<TVShowEntity> tvShowsList = new ArrayList<>();
-                for (int i = 0; i < tvShowResponses.size(); i++) {
-                    TVShowResponses response = tvShowResponses.get(i);
-                    TVShowEntity tvShows = new TVShowEntity(
-                            response.getId(),
-                            response.getVoteAverage().toString(),
-                            response.getName(),
-                            response.getFirstAirDate(),
-                            response.getOverview(),
-                            response.getPosterPath()
-                    );
-                    tvShowsList.add(tvShows);
-                }
-                tvShowResults.postValue(tvShowsList);
-            }
-
-            @Override
-            public void onDataNotAvailable(String message) {
-
-            }
-        });
-        return tvShowResults;
-    } */
 
     @Override
     public LiveData<Resource<List<TVShowEntity>>> getAllTVShows() {
@@ -293,58 +230,4 @@ public class MoviesRepository implements MoviesDataSource {
             }
         }.asLiveData();
     }
-
-    /*
-    @Override
-    public LiveData<MoviesEntity> getDetailsMovies(int moviesId) {
-        MutableLiveData<MoviesEntity> moviesResult = new MutableLiveData<>();
-        remoteRepository.getDetailMovies(moviesId, new RemoteRepository.LoadMovieDetailsCallback() {
-            @Override
-            public void onAllMovieDetailsReceived(MovieDetailsResponse movieDetailsResponse) {
-                if (movieDetailsResponse.getId().equals(moviesId)) {
-                    MoviesEntity detailMovie = new MoviesEntity(
-                            movieDetailsResponse.getId(),
-                            movieDetailsResponse.getVoteAverage().toString(),
-                            movieDetailsResponse.getTitle(),
-                            movieDetailsResponse.getReleaseDate(),
-                            movieDetailsResponse.getOverview(),
-                            movieDetailsResponse.getPosterPath());
-                    moviesResult.postValue(detailMovie);
-                }
-            }
-            @Override
-            public void onDataNotAvailable(String message) {
-
-            }
-        });
-        return moviesResult;
-    }*/
-
-    /*
-    @Override
-    public LiveData<TVShowEntity> getDetailsTvShows(int tvShowsId) {
-        MutableLiveData<TVShowEntity> tvShowsResult = new MutableLiveData<>();
-
-        remoteRepository.getDetailTVShows(tvShowsId, new RemoteRepository.LoadTVShowDetailsCallback() {
-
-            @Override
-            public void onAllTVShowDetailsReceived(TVShowDetailsResponse tvShowDetailsResponse) {
-                if (tvShowDetailsResponse.getId().equals(tvShowsId)) {
-                    TVShowEntity detailsResponse = new TVShowEntity(
-                            tvShowDetailsResponse.getId(),
-                            tvShowDetailsResponse.getVoteAverage().toString(),
-                            tvShowDetailsResponse.getName(),
-                            tvShowDetailsResponse.getFirstAirDate(),
-                            tvShowDetailsResponse.getOverview(),
-                            tvShowDetailsResponse.getPosterPath());
-                    tvShowsResult.postValue(detailsResponse);
-                }
-            }
-            @Override
-            public void onDataNotAvailable(String message) {
-
-            }
-        });
-        return tvShowsResult;
-    }*/
 }

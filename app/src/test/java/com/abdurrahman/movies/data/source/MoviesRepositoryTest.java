@@ -1,5 +1,7 @@
 package com.abdurrahman.movies.data.source;
 
+import android.os.Handler;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
 
@@ -7,31 +9,29 @@ import com.abdurrahman.movies.data.source.local.LocalDataSource;
 import com.abdurrahman.movies.data.source.local.entity.MoviesEntity;
 import com.abdurrahman.movies.data.source.local.entity.TVShowEntity;
 import com.abdurrahman.movies.data.source.remote.RemoteRepository;
-import com.abdurrahman.movies.data.source.remote.response.MovieDetailsResponse;
 import com.abdurrahman.movies.data.source.remote.response.MoviesResponses;
-import com.abdurrahman.movies.data.source.remote.response.TVShowDetailsResponse;
 import com.abdurrahman.movies.data.source.remote.response.TVShowResponses;
 import com.abdurrahman.movies.data.vo.Resource;
-import com.abdurrahman.movies.utils.AppExecutorTest;
+import com.abdurrahman.movies.utils.AppExecutors;
 import com.abdurrahman.movies.utils.FakeDataDummy;
 import com.abdurrahman.movies.utils.LiveDataTestUtil;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MoviesRepositoryTest {
 
     @Rule
@@ -39,7 +39,7 @@ public class MoviesRepositoryTest {
 
     private RemoteRepository remote = Mockito.mock(RemoteRepository.class);
     private LocalDataSource local = mock(LocalDataSource.class);
-    private AppExecutorTest appExecutors = mock(AppExecutorTest.class);
+    private AppExecutors appExecutors = mock(AppExecutors.class);
     private FakeMoviesRepository moviesRepository = new FakeMoviesRepository(remote, local, appExecutors);
 
     private ArrayList<MoviesResponses> moviesResponses = FakeDataDummy.generateRemoteDummyMovies();
@@ -52,19 +52,6 @@ public class MoviesRepositoryTest {
 
     @Test
     public void getAllMovies() {
-        /*
-        doAnswer(invocation -> {
-            ((RemoteRepository.LoadMoviesCallback) invocation.getArguments()[0])
-                    .onAllMoviesReceived(moviesResponses);
-            return null;
-        }).when(remote).getAllMovies(any(RemoteRepository.LoadMoviesCallback.class));
-
-        List<MoviesEntity> result = LiveDataTestUtil.getValue(moviesRepository.getAllMovies());
-
-        verify(remote, times(1)).getAllMovies(any(RemoteRepository.LoadMoviesCallback.class));
-
-        assertNotNull(result);
-        assertEquals(moviesResponses.size(), result.size());*/
         MutableLiveData<List<MoviesEntity>> listMutableLiveData = new MutableLiveData<>();
         listMutableLiveData.setValue(moviesEntities);
 
@@ -121,56 +108,21 @@ public class MoviesRepositoryTest {
         assertEquals(tvShowResponses.get(0).getName(), result.data.getTitle());
     }
 
-    /*
     @Test
-    public void getAllTVShows() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.LoadTVShowsCallback) invocation.getArguments()[0])
-                    .onAllTVShowsReceived(tvShowResponses);
-            return null;
-        }).when(remote).getAllTVShows(any(RemoteRepository.LoadTVShowsCallback.class));
+    public void setTvShowFavorite(){
+        TVShowEntity dummyTvShow = FakeDataDummy.generateLocalDummyTVShows().get(0);
+        boolean state = !dummyTvShow.isFavorite();
+        Runnable runnable = () -> moviesRepository.setTvShowsFavorite(dummyTvShow, state);
+        Handler handler = mock(Handler.class);
+        handler.postDelayed(runnable,100);
+    }
 
-        List<TVShowEntity> result = LiveDataTestUtil.getValue(moviesRepository.getAllTVShows());
-
-        verify(remote, times(1)).getAllTVShows(any(RemoteRepository.LoadTVShowsCallback.class));
-
-        assertNotNull(result);
-        assertEquals(tvShowResponses.size(), result.size());
-    }*/
-
-    /*
     @Test
-    public void getDetailsMovies() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.LoadMovieDetailsCallback) invocation.getArguments()[1])
-                    .onAllMovieDetailsReceived(movieDetailsResponse);
-            return null;
-        }).when(remote).getDetailMovies(eq(movieId),any(RemoteRepository.LoadMovieDetailsCallback.class));
-
-        MoviesEntity result = LiveDataTestUtil.getValue(moviesRepository.getDetailsMovies(movieId));
-
-        verify(remote, times(1)).getDetailMovies(eq(movieId),any(RemoteRepository.LoadMovieDetailsCallback.class));
-
-        assertNotNull(result);
-        assertNotNull(result.getTitle());
-        assertEquals(movieDetailsResponse.getTitle(), result.getTitle());
-    }*/
-
-    /*
-    @Test
-    public void getDetailsTvShows() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.LoadTVShowDetailsCallback) invocation.getArguments()[1])
-                    .onAllTVShowDetailsReceived(tvShowDetailsResponse);
-            return null;
-        }).when(remote).getDetailTVShows(eq(tvShowId),any(RemoteRepository.LoadTVShowDetailsCallback.class));
-
-        TVShowEntity result = LiveDataTestUtil.getValue(moviesRepository.getDetailsTvShows(tvShowId));
-
-        verify(remote, times(1)).getDetailTVShows(eq(tvShowId),any(RemoteRepository.LoadTVShowDetailsCallback.class));
-
-        assertNotNull(result);
-        assertNotNull(result.getTitle());
-        assertEquals(tvShowDetailsResponse.getName(), result.getTitle());
-    }*/
+    public void setMovieFavorite() throws NullPointerException {
+        MoviesEntity dummyMovies = FakeDataDummy.generateLocalDummyMovies().get(0);
+        boolean state = !dummyMovies.isFavorite();
+        Runnable run = () -> moviesRepository.setMoviesFavorite(dummyMovies, state);
+        Handler handler = mock(Handler.class);
+        handler.postDelayed(run,100);
+    }
 }

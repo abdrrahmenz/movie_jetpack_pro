@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.abdurrahman.movies.BuildConfig;
 import com.abdurrahman.movies.R;
 import com.abdurrahman.movies.data.source.local.entity.MoviesEntity;
@@ -19,16 +21,15 @@ import com.abdurrahman.movies.ui.detail.DetailMovieActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class FavoriteMovieAdapter extends PagedListAdapter<MoviesEntity, FavoriteMovieAdapter.FavMovieViewHolder> {
-
+public class FavoriteMovieAdapters extends PagedListAdapter<MoviesEntity, FavoriteMovieAdapters.FavMovieViewHolder> {
     private final Activity activity;
 
-    public FavoriteMovieAdapter(Activity activity) {
+    public FavoriteMovieAdapters(Activity activity) {
         super(DIFF_CALLBACK);
         this.activity = activity;
     }
 
-    private static DiffUtil.ItemCallback<MoviesEntity> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<MoviesEntity> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<MoviesEntity>() {
                 @Override
                 public boolean areItemsTheSame(MoviesEntity oldMovie, MoviesEntity newMovie) {
@@ -41,10 +42,6 @@ public class FavoriteMovieAdapter extends PagedListAdapter<MoviesEntity, Favorit
                     return oldMovie.equals(newMovie);
                 }
             };
-
-    public MoviesEntity getItemById(int swipedPosition) {
-        return getItem(swipedPosition);
-    }
 
     @NonNull
     @Override
@@ -63,26 +60,23 @@ public class FavoriteMovieAdapter extends PagedListAdapter<MoviesEntity, Favorit
             Glide.with(holder.itemView.getContext())
                     .load(BuildConfig.BASE_URL_POSTER + data.getPosterPath())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                            .error(R.drawable.ic_error)
+                    .error(R.drawable.ic_error)
                     .into(holder.imgPoster);
             holder.itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(activity, DetailMovieActivity.class);
-                intent.putExtra(DetailMovieActivity.EXTRA_DETAILS_MOVIES,data.getIdMovie());
+                intent.putExtra(DetailMovieActivity.EXTRA_DETAILS_MOVIES, data.getIdMovie());
                 activity.startActivity(intent);
             });
         }
-
-
     }
 
-    class FavMovieViewHolder extends RecyclerView.ViewHolder {
-
+    static class FavMovieViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle;
         final TextView tvDescription;
         final TextView tvDate;
         final ImageView imgPoster;
 
-        FavMovieViewHolder(@NonNull View itemView) {
+        FavMovieViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_item_title);
             imgPoster = itemView.findViewById(R.id.img_poster);

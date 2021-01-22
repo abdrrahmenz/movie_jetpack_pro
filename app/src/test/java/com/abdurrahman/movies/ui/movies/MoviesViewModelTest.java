@@ -35,24 +35,11 @@ public class MoviesViewModelTest {
     public void setUp(){
         viewModel = new MoviesViewModel(moviesRepository);
         viewModel.setMovieId(moviesId);
-        viewModel.setFavorite();
+        viewModel.setMovieFavorite();
     }
 
     @Test
     public void getMovies() {
-        /*
-        ArrayList<MoviesEntity> dummyMovies = FakeDataDummy.generateDummyMovies();
-
-        MutableLiveData<List<MoviesEntity>> movies = new MutableLiveData<>();
-        movies.setValue(dummyMovies);
-
-        when(moviesRepository.getAllMovies()).thenReturn(movies);
-
-        Observer<List<MoviesEntity>> observer = mock(Observer.class);
-
-        viewModel.getMovies().observeForever(observer);
-
-        verify(observer).onChanged(dummyMovies);*/
         Resource<List<MoviesEntity>> resource = Resource.success(FakeDataDummy.generateLocalDummyMovies());
         MutableLiveData<Resource<List<MoviesEntity>>> dummyCourses = new MutableLiveData<>();
         dummyCourses.setValue(resource);
@@ -84,7 +71,7 @@ public class MoviesViewModelTest {
     }
 
     @Test
-    public void getFavorite() {
+    public void getMovieFavorite() {
         MutableLiveData<Resource<PagedList<MoviesEntity>>> dummyCourse = new MutableLiveData<>();
         PagedList<MoviesEntity> pagedList = mock(PagedList.class);
 

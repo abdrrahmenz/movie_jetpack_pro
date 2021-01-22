@@ -38,14 +38,6 @@ public class TvShowsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
             progressBar.setVisibility(View.VISIBLE);
-//            TVShowsViewModel viewModel = obtainViewModel(getActivity());
-//            viewModel.getTVShows().observe(getViewLifecycleOwner(), tvShowResponses -> {
-//                progressBar.setVisibility(View.GONE);
-//                tvShowsAdapter.setListTvShows(tvShowResponses);
-//                tvShowsAdapter.notifyDataSetChanged();
-//            });
-//
-//            tvShowsAdapter = new TvShowsAdapter(getActivity());
             TVShowsViewModel tvShowViewModel = obtainViewModel(getActivity());
             tvShowsAdapter = new TvShowsAdapter(getActivity());
             tvShowViewModel.setUsername("Abdurrahman");

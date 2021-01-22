@@ -22,7 +22,7 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
     private final Activity activity;
-    private List<MoviesEntity> mMovies = new ArrayList<>();
+    private final List<MoviesEntity> mMovies = new ArrayList<>();
 
     MoviesAdapter(Activity activity) {
         this.activity = activity;
@@ -67,7 +67,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         return getListMovies().size();
     }
 
-    class MoviesViewHolder extends RecyclerView.ViewHolder {
+    static class MoviesViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle;
         final TextView tvDescription;
         final TextView tvDate;

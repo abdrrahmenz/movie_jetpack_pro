@@ -38,14 +38,8 @@ public class MoviesFragment extends Fragment {
         if (getActivity() != null) {
             progressBar.setVisibility(View.VISIBLE);
             MoviesViewModel viewModel = obtainViewModel(getActivity());
-//            viewModel.getMovies().observe(getViewLifecycleOwner(), moviesResponses -> {
-//                progressBar.setVisibility(View.GONE);
-//                moviesAdapter.setListMovies(moviesResponses);
-//                moviesAdapter.notifyDataSetChanged();
-//            });
-//            moviesAdapter = new MoviesAdapter(getActivity());
             moviesAdapter = new MoviesAdapter(getActivity());
-            viewModel.setUsername("Dicoding");
+            viewModel.setUsername("Abdurrahman");
             viewModel.movies.observe(getViewLifecycleOwner(), moviesList -> {
                 if (moviesList != null) {
                     switch (moviesList.status) {

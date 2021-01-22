@@ -1,6 +1,7 @@
 package com.abdurrahman.movies.data.source.remote.service;
 
 import com.abdurrahman.movies.BuildConfig;
+import com.abdurrahman.movies.data.source.remote.BaseUrl;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -22,7 +23,7 @@ public class ApiClient {
                 .build();
 
             retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(BaseUrl.BASE_URL)
                     .client(interceptor)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

@@ -23,10 +23,6 @@ public class TVShowsViewModel extends ViewModel {
         this.moviesRepository = mMoviesRepository;
     }
 
-//    public LiveData<List<TVShowEntity>> getTVShows() {
-//        return moviesRepository.getAllTVShows();
-//    }
-
     public LiveData<Resource<List<TVShowEntity>>> tvShow = Transformations.switchMap(mLogin,
             data -> moviesRepository.getAllTVShows());
 
@@ -41,14 +37,11 @@ public class TVShowsViewModel extends ViewModel {
         this.tvShowId.setValue(tvShowId);
     }
 
-    // Favorite
-    public void setFavorite() {
+    public void setTvShowFavorite() {
         if (detailTvShow.getValue() != null) {
             TVShowEntity tvShowEntity = detailTvShow.getValue().data;
 
             if (tvShowEntity != null) {
-                // Kode di bawah menggunakan tanda seru (!),
-                // karena akan mengganti status dari apakah sudah di bookmark atau tidak menjadi apakah sudah siap dibookmark atau tidak
                 final boolean newState = !tvShowEntity.isFavorite();
                 moviesRepository.setTvShowsFavorite(tvShowEntity, newState);
             }

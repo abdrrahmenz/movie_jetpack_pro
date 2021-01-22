@@ -34,24 +34,11 @@ public class TVShowViewModelTest {
     public void setUp(){
         viewModel = new TVShowsViewModel(moviesRepository);
         viewModel.setTvShowId(tvShowId);
-        viewModel.setFavorite();
+        viewModel.setTvShowFavorite();
     }
 
     @Test
     public void getTVShows() {
-        /*
-        ArrayList<TVShowEntity> dummyTVShows = FakeDataDummy.generateDummyTVShows();
-
-        MutableLiveData<List<TVShowEntity>> tvShows = new MutableLiveData<>();
-        tvShows.setValue(dummyTVShows);
-
-        when(moviesRepository.getAllTVShows()).thenReturn(tvShows);
-
-        Observer<List<TVShowEntity>> observer = mock(Observer.class);
-
-        viewModel.getTVShows().observeForever(observer);
-
-        verify(observer).onChanged(dummyTVShows);*/
         Resource<List<TVShowEntity>> resource = Resource.success(FakeDataDummy.generateLocalDummyTVShows());
         MutableLiveData<Resource<List<TVShowEntity>>> dummyCourses = new MutableLiveData<>();
         dummyCourses.setValue(resource);
@@ -60,7 +47,7 @@ public class TVShowViewModelTest {
 
         Observer<Resource<List<TVShowEntity>>> observer = mock(Observer.class);
 
-        String username = "Dicoding";
+        String username = "Abdurrahman";
         viewModel.setUsername(username);
 
         viewModel.tvShow.observeForever(observer);
@@ -82,8 +69,10 @@ public class TVShowViewModelTest {
         verify(observer).onChanged(resource);
     }
 
+
+
     @Test
-    public void getFavorite() {
+    public void getTvShowFavorite() {
         MutableLiveData<Resource<PagedList<TVShowEntity>>> dummyCourse = new MutableLiveData<>();
         PagedList<TVShowEntity> pagedList = mock(PagedList.class);
 

@@ -19,14 +19,6 @@ public class MoviesViewModel extends ViewModel {
     private MutableLiveData<String> isLogin = new MutableLiveData<>();
     private MutableLiveData<Integer> movieId = new MutableLiveData<>();
 
-//    public MoviesViewModel(MoviesRepository mMoviesRepository) {
-//        this.moviesRepository = mMoviesRepository;
-//    }
-//
-//    public LiveData<List<MoviesEntity>> getMovies() {
-//        return moviesRepository.getAllMovies();
-//    }
-
     public MoviesViewModel(MoviesRepository repository) {
         this.moviesRepository = repository;
     }
@@ -45,14 +37,11 @@ public class MoviesViewModel extends ViewModel {
         this.movieId.setValue(movieId);
     }
 
-    // Favorite
-    public void setFavorite() {
+    public void setMovieFavorite() {
         if (detailMovies.getValue() != null) {
             MoviesEntity moviesEntity = detailMovies.getValue().data;
 
             if (moviesEntity != null) {
-                // Kode di bawah menggunakan tanda seru (!),
-                // karena akan mengganti status dari apakah sudah di bookmark atau tidak menjadi apakah sudah siap dibookmark atau tidak
                 final boolean newState = !moviesEntity.isFavorite();
                 moviesRepository.setMoviesFavorite(moviesEntity, newState);
             }
@@ -61,10 +50,5 @@ public class MoviesViewModel extends ViewModel {
 
     public LiveData<Resource<PagedList<MoviesEntity>>> getFavorite() {
         return moviesRepository.getFavoriteMoviesPaged();
-    }
-
-    public void setBookmark(MoviesEntity moviesEntity) {
-        final boolean newState = !moviesEntity.isFavorite();
-        moviesRepository.setMoviesFavorite(moviesEntity, newState);
     }
 }

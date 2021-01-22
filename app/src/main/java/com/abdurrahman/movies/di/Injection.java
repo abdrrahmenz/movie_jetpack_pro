@@ -11,9 +11,6 @@ import com.abdurrahman.movies.utils.AppExecutors;
 public class Injection {
     public static MoviesRepository provideRepository(Application application) {
 
-//        RemoteRepository remoteRepository = RemoteRepository.getInstance();
-//
-//        return MoviesRepository.getInstance(remoteRepository);
         MoviesDatabase database = MoviesDatabase.getInstance(application);
 
         RemoteRepository remoteRepository = RemoteRepository.getInstance();

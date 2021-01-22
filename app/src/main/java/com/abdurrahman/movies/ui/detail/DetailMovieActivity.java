@@ -1,11 +1,5 @@
 package com.abdurrahman.movies.ui.detail;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,13 +10,18 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.abdurrahman.movies.BuildConfig;
 import com.abdurrahman.movies.R;
 import com.abdurrahman.movies.utils.GlideApp;
 import com.abdurrahman.movies.viewmodel.MoviesViewModel;
 import com.abdurrahman.movies.viewmodel.TVShowsViewModel;
 import com.abdurrahman.movies.viewmodel.ViewModelFactory;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 public class DetailMovieActivity extends AppCompatActivity {
@@ -129,28 +128,6 @@ public class DetailMovieActivity extends AppCompatActivity {
                 }
             });
         }
-
-//        if (extras != null) {
-//            progressBar.setVisibility(View.VISIBLE);
-//            int movieId = extras.getInt(EXTRA_DETAILS_MOVIES);
-//            if (movieId != 0) {
-//                viewModel.setMovieId(movieId);
-//            }
-//
-//            viewModel.getDetailsMovies().observe(this, movies -> {
-//                progressBar.setVisibility(View.GONE);
-//                textTitle.setText(movies.getTitle());
-//                textDesc.setText(movies.getOverview());
-//                textDate.setText(movies.getDateRelease());
-//                textRating.setText(String.valueOf(movies.getRating()));
-//                ratingBar.setRating(Float.parseFloat(movies.getRating()));
-//
-//                GlideApp.with(getApplicationContext())
-//                        .load(BuildConfig.BASE_URL_POSTER+movies.getPosterPath())
-//                        .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-//                        .into(imagePoster);
-//            });
-//        }
     }
 
     @Override
@@ -210,9 +187,9 @@ public class DetailMovieActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         } else if (item.getItemId() == R.id.action_bookmark) {
             if (movieId != 0) {
-                movieViewModel.setFavorite();
+                movieViewModel.setMovieFavorite();
             } else if (tvShowId != 0) {
-                tvShowViewModel.setFavorite();
+                tvShowViewModel.setTvShowFavorite();
             }
             return true;
         }
