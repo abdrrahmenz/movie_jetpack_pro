@@ -1,5 +1,6 @@
 package com.abdurrahman.movies.ui.favorite;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -13,6 +14,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.Objects;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -39,6 +42,13 @@ public class LoadFavoriteMoviesFragmentTest {
     @Test
     public void loadFavoriteMovies(){
         onView(withId(R.id.rv_movies_favorite)).check(matches(isDisplayed()));
-        onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(1));
+        if (getRvCount() > 0) {
+            onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(1));
+        }
+    }
+
+    private int getRvCount() {
+        RecyclerView recyclerView = activityRule.getActivity().findViewById(R.id.rv_movies_favorite);
+        return Objects.requireNonNull(recyclerView.getAdapter()).getItemCount();
     }
 }
