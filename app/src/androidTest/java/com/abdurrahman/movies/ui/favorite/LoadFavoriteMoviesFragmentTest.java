@@ -49,27 +49,6 @@ public class LoadFavoriteMoviesFragmentTest {
     @Test
     public void loadFavoriteMovies(){
         onView(withId(R.id.rv_movies_favorite)).check(matches(isDisplayed()));
-        int itemsCount = getCountFromRecyclerView(R.id.rv_movies_favorite);
-        onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(itemsCount));
+        onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(1));
     }
-
-    // check item count RecyclerView
-    public static int getCountFromRecyclerView(@IdRes int RecyclerViewId) {
-        final int[] COUNT = {0};
-        Matcher matcher = new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) { }
-
-            @Override
-            protected boolean matchesSafely(View item) {
-                COUNT[0] = Objects.requireNonNull(((RecyclerView) item).getAdapter()).getItemCount();
-                return true;
-            }
-        };
-        onView(allOf(withId(RecyclerViewId),isDisplayed())).check(matches(matcher));
-        int result = COUNT[0];
-        COUNT[0] = 0;
-        return result;
-    }
-
 }
