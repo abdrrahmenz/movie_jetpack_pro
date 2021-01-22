@@ -44,6 +44,8 @@ public class LoadFavoriteMoviesFragmentTest {
         onView(withId(R.id.rv_movies_favorite)).check(matches(isDisplayed()));
         if (getRvCount() > 0) {
             onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(1));
+        } else {
+            onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(0));
         }
     }
 
