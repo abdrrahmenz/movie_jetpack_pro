@@ -1,9 +1,5 @@
 package com.abdurrahman.movies.ui.favorite;
 
-import android.view.View;
-
-import androidx.annotation.IdRes;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -13,21 +9,15 @@ import com.abdurrahman.movies.ui.favorite.movies.FavoriteMovieFragment;
 import com.abdurrahman.movies.utils.EspressoIdlingResource;
 import com.abdurrahman.movies.utils.RecyclerViewItemCountAssertion;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.Objects;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.CoreMatchers.allOf;
 
 public class LoadFavoriteMoviesFragmentTest {
 
