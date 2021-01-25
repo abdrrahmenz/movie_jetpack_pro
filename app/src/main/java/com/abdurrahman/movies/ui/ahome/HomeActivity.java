@@ -1,4 +1,4 @@
-package com.abdurrahman.movies.ui.home;
+package com.abdurrahman.movies.ui.ahome;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -8,8 +8,8 @@ import android.os.Bundle;
 
 import com.abdurrahman.movies.R;
 import com.abdurrahman.movies.ui.favorite.FavoriteFragment;
-import com.abdurrahman.movies.ui.movies.MoviesFragment;
-import com.abdurrahman.movies.ui.tvshows.TvShowsFragment;
+import com.abdurrahman.movies.ui.amovies.MoviesFragment;
+import com.abdurrahman.movies.ui.atvshows.TvShowsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {

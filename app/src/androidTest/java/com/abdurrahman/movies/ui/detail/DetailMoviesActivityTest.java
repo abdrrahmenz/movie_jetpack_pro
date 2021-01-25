@@ -49,16 +49,16 @@ public class DetailMoviesActivityTest {
 
     @Before
     public void setUp() throws Exception {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
         webServer = new MockWebServer();
         webServer.start();
         BaseUrl.BASE_URL = webServer.url("/").toString();
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
     }
 
     @After
     public void tearDown() throws Exception {
-        webServer.shutdown();
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
+        webServer.shutdown();
     }
 
     @Test
@@ -72,6 +72,7 @@ public class DetailMoviesActivityTest {
         Intent intent = new Intent(context, DetailMovieActivity.class);
         intent.putExtra(DetailMovieActivity.EXTRA_DETAILS_MOVIES, dummyMoviesEntity.getIdMovie());
         activityTestRule.launchActivity(intent);
+        Thread.sleep(2000);
         onView(withId(R.id.tvTitleDetails)).check(matches(isDisplayed()));
         onView(withId(R.id.tvTitleDetails)).check(matches(withText(dummyMoviesEntity.getTitle())));
         onView(withId(R.id.tvReleaseDate)).check(matches(isDisplayed()));

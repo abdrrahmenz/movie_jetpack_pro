@@ -1,4 +1,4 @@
-package com.abdurrahman.movies.ui.home;
+package com.abdurrahman.movies.ui.ahome;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -20,6 +20,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -32,27 +33,29 @@ public class HomeActivityTest {
 
     @Before
     public void setUp() throws Exception {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
         webServer = new MockWebServer();
         webServer.start();
         BaseUrl.BASE_URL = webServer.url("/").toString();
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
     }
 
     @After
     public void tearDown() throws Exception {
-        webServer.shutdown();
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
+        webServer.shutdown();
     }
 
     @Test
     public void homeActivityToDetailMovieTest() throws Exception {
-        String fileName = "200_movie.json";
+        String fileName = "list_movie.json";
         webServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
 
         onView(withId(R.id.rv_movies)).check(matches(isDisplayed()));
-        onView(withId(R.id.rv_movies)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        Thread.sleep(3000);
+        onView(withId(R.id.rv_movies)).perform(RecyclerViewActions.actionOnItem(
+                hasDescendant(withText("Wonder Woman 1984")), click()));
         onView(withId(R.id.tvTitleDetails)).check(matches(isDisplayed()));
         onView(withId(R.id.tvTitleDetails)).check(matches(withText("Wonder Woman 1984")));
     }

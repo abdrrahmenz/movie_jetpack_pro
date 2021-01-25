@@ -1,4 +1,4 @@
-package com.abdurrahman.movies.ui.movies;
+package com.abdurrahman.movies.ui.amovies;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;

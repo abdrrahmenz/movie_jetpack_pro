@@ -1,4 +1,4 @@
-package com.abdurrahman.movies.ui.movies;
+package com.abdurrahman.movies.ui.atvshows;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,71 +9,70 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.abdurrahman.movies.R;
-import com.abdurrahman.movies.data.source.local.entity.MoviesEntity;
-import com.abdurrahman.movies.ui.detail.DetailMovieActivity;
 import com.abdurrahman.movies.BuildConfig;
+import com.abdurrahman.movies.R;
+import com.abdurrahman.movies.data.source.local.entity.TVShowEntity;
+import com.abdurrahman.movies.ui.detail.DetailMovieActivity;
 import com.abdurrahman.movies.utils.GlideApp;
 import com.bumptech.glide.request.RequestOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
+public class TvShowsAdapter extends RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder> {
 
     private final Activity activity;
-    private final List<MoviesEntity> mMovies = new ArrayList<>();
+    private List<TVShowEntity> mTvShows = new ArrayList<>();
 
-    MoviesAdapter(Activity activity) {
+    TvShowsAdapter(Activity activity) {
         this.activity = activity;
     }
 
-    private List<MoviesEntity> getListMovies() {
-        return mMovies;
+    private List<TVShowEntity> getListTvShows() {
+        return mTvShows;
     }
 
-    void setListMovies(List<MoviesEntity> listMovies) {
-        if (listMovies == null) return;
-        this.mMovies.clear();
-        this.mMovies.addAll(listMovies);
+    void setListTvShows(List<TVShowEntity> listTvShows) {
+        if (listTvShows == null) return;
+        this.mTvShows.clear();
+        this.mTvShows.addAll(listTvShows);
     }
 
     @NonNull
     @Override
-    public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TvShowsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_list, parent, false);
-        return new MoviesViewHolder(view);
+        return new TvShowsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MoviesViewHolder holder, int position) {
-        holder.tvTitle.setText(getListMovies().get(position).getTitle());
-        holder.tvDescription.setText(getListMovies().get(position).getOverview());
-        holder.tvDate.setText(String.format("Release %s", getListMovies().get(position).getReleaseDate()));
+    public void onBindViewHolder(@NonNull final TvShowsViewHolder holder, int position) {
+        holder.tvTitle.setText(getListTvShows().get(position).getTitle());
+        holder.tvDescription.setText(getListTvShows().get(position).getOverview());
+        holder.tvDate.setText(String.format("Release %s", getListTvShows().get(position).getReleaseDate()));
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailMovieActivity.class);
-            intent.putExtra(DetailMovieActivity.EXTRA_DETAILS_MOVIES, getListMovies().get(position).getIdMovie());
+            intent.putExtra(DetailMovieActivity.EXTRA_DETAILS_TVSHOW, getListTvShows().get(position).getTvShowId());
             activity.startActivity(intent);
         });
 
         GlideApp.with(holder.itemView.getContext())
-                .load(BuildConfig.BASE_URL_POSTER+getListMovies().get(position).getPosterPath())
+                .load(BuildConfig.BASE_URL_POSTER+getListTvShows().get(position).getPosterPath())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
                 .into(holder.imgPoster);
     }
 
     @Override
     public int getItemCount() {
-        return getListMovies().size();
+        return getListTvShows().size();
     }
 
-    static class MoviesViewHolder extends RecyclerView.ViewHolder {
+    static class TvShowsViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle;
         final TextView tvDescription;
         final TextView tvDate;
         final ImageView imgPoster;
 
-        MoviesViewHolder(View itemView) {
+        TvShowsViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_item_title);
             imgPoster = itemView.findViewById(R.id.img_poster);

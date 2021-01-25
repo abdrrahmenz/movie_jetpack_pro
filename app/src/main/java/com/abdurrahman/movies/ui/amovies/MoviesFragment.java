@@ -1,5 +1,4 @@
-package com.abdurrahman.movies.ui.tvshows;
-
+package com.abdurrahman.movies.ui.amovies;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,21 +15,21 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.abdurrahman.movies.R;
-import com.abdurrahman.movies.viewmodel.TVShowsViewModel;
+import com.abdurrahman.movies.viewmodel.MoviesViewModel;
 import com.abdurrahman.movies.viewmodel.ViewModelFactory;
+import com.abdurrahman.movies.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TvShowsFragment extends Fragment {
+public class MoviesFragment extends Fragment {
 
-    private RecyclerView rvTvShows;
+    private RecyclerView rvMovies;
     private ProgressBar progressBar;
-    private TvShowsAdapter tvShowsAdapter;
+    private MoviesAdapter moviesAdapter;
 
     public static Fragment newInstance() {
-        return new TvShowsFragment();
+        return new MoviesFragment();
     }
 
     @Override
@@ -38,19 +37,19 @@ public class TvShowsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
             progressBar.setVisibility(View.VISIBLE);
-            TVShowsViewModel tvShowViewModel = obtainViewModel(getActivity());
-            tvShowsAdapter = new TvShowsAdapter(getActivity());
-            tvShowViewModel.setUsername("Abdurrahman");
-            tvShowViewModel.tvShow.observe(getViewLifecycleOwner(), tvShowList -> {
-                if (tvShowList != null) {
-                    switch (tvShowList.status) {
+            MoviesViewModel viewModel = obtainViewModel(getActivity());
+            moviesAdapter = new MoviesAdapter(getActivity());
+            viewModel.setUsername("Abdurrahman");
+            viewModel.movies.observe(getViewLifecycleOwner(), moviesList -> {
+                if (moviesList != null) {
+                    switch (moviesList.status) {
                         case LOADING:
                             progressBar.setVisibility(View.VISIBLE);
                             break;
                         case SUCCESS:
                             progressBar.setVisibility(View.GONE);
-                            tvShowsAdapter.setListTvShows(tvShowList.data);
-                            tvShowsAdapter.notifyDataSetChanged();
+                            moviesAdapter.setListMovies(moviesList.data);
+                            moviesAdapter.notifyDataSetChanged();
                             break;
                         case ERROR:
                             progressBar.setVisibility(View.GONE);
@@ -60,32 +59,30 @@ public class TvShowsFragment extends Fragment {
                     }
                 }
             });
-
-            rvTvShows.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvTvShows.setHasFixedSize(true);
-            rvTvShows.setAdapter(tvShowsAdapter);
+            rvMovies.setLayoutManager(new LinearLayoutManager(getContext()));
+            rvMovies.setHasFixedSize(true);
+            rvMovies.setAdapter(moviesAdapter);
         }
     }
 
     @NonNull
-    private static TVShowsViewModel obtainViewModel(FragmentActivity activity) {
+    private static MoviesViewModel obtainViewModel(FragmentActivity activity) {
         // Use a Factory to inject dependencies into the ViewModel
         ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
-        return ViewModelProviders.of(activity, factory).get(TVShowsViewModel.class);
+        return ViewModelProviders.of(activity, factory).get(MoviesViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tv_shows, container, false);
+        return inflater.inflate(R.layout.fragment_movies, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvTvShows = view.findViewById(R.id.rv_tv_shows);
+        rvMovies = view.findViewById(R.id.rv_movies);
         progressBar = view.findViewById(R.id.progress_bar);
     }
-
 }

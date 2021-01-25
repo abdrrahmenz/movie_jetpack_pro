@@ -40,7 +40,8 @@ public class LoadFavoriteMoviesFragmentTest {
     }
 
     @Test
-    public void loadFavoriteMovies(){
+    public void loadFavoriteMovies() throws Exception {
+        Thread.sleep(2000);
         onView(withId(R.id.rv_movies_favorite)).check(matches(isDisplayed()));
         if (getRvCount() > 0) {
             onView(withId(R.id.rv_movies_favorite)).check(new RecyclerViewItemCountAssertion(1));

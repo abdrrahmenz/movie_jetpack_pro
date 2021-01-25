@@ -1,4 +1,4 @@
-package com.abdurrahman.movies.ui.tvshows;
+package com.abdurrahman.movies.ui.amovies;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -24,34 +24,37 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-public class TvShowsFragmentTest {
+public class MoviesFragmentTest {
+
     @Rule
     public ActivityTestRule<SingleFragmentActivity> activityRule = new ActivityTestRule<>(SingleFragmentActivity.class);
-    private TvShowsFragment tvShowsFragment = new TvShowsFragment();
+    private MoviesFragment moviesFragment = new MoviesFragment();
     private MockWebServer webServer;
 
     @After
     public void tearDown() throws Exception {
-        webServer.shutdown();
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
+        webServer.shutdown();
     }
 
     @Before
     public void setUp() throws Exception {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
         webServer = new MockWebServer();
         webServer.start();
         BaseUrl.BASE_URL = webServer.url("/").toString();
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
-        activityRule.getActivity().setFragment(tvShowsFragment);
+        activityRule.getActivity().setFragment(moviesFragment);
     }
 
     @Test
-    public void loadTVShows() throws Exception {
+    public void loadMovies() throws Exception {
         String fileName = "list_movie.json";
         webServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
-        onView(withId(R.id.rv_tv_shows)).check(matches(isDisplayed()));
-        onView(withId(R.id.rv_tv_shows)).check(new RecyclerViewItemCountAssertion(20));
+        Thread.sleep(2000);
+        onView(withId(R.id.rv_movies)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_movies)).check(new RecyclerViewItemCountAssertion(20));
     }
+
 }

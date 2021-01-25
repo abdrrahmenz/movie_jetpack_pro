@@ -16,13 +16,13 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.detail.DetailMovieActivity"
             android:label="@string/title_activity_details"
-            android:parentActivityName=".ui.home.HomeActivity"
+            android:parentActivityName=".ui.ahome.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.abdurrahman.movies.ui.home.HomeActivity" />
+                android:value="com.abdurrahman.movies.ui.ahome.HomeActivity" />
         </activity>
-        <activity android:name=".ui.home.HomeActivity">
+        <activity android:name=".ui.ahome.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
