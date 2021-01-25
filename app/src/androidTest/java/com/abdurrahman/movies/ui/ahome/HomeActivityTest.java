@@ -1,18 +1,24 @@
 package com.abdurrahman.movies.ui.ahome;
 
+import android.text.format.DateUtils;
+
+import androidx.test.espresso.IdlingPolicies;
 import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.abdurrahman.movies.R;
 import com.abdurrahman.movies.data.source.remote.BaseUrl;
-import com.abdurrahman.movies.utils.EspressoIdlingResource;
+import com.abdurrahman.movies.utils.ElapsedTimeIdlingResource;
 import com.abdurrahman.movies.utils.RestServiceTestHelper;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -33,7 +39,6 @@ public class HomeActivityTest {
 
     @Before
     public void setUp() throws Exception {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
         webServer = new MockWebServer();
         webServer.start();
         BaseUrl.BASE_URL = webServer.url("/").toString();
@@ -41,22 +46,28 @@ public class HomeActivityTest {
 
     @After
     public void tearDown() throws Exception {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
         webServer.shutdown();
     }
 
     @Test
     public void homeActivityToDetailMovieTest() throws Exception {
+        // Make sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(5 * 2, TimeUnit.SECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5 * 2, TimeUnit.SECONDS);
+
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(DateUtils.SECOND_IN_MILLIS * 5);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         String fileName = "list_movie.json";
         webServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
-
         onView(withId(R.id.rv_movies)).check(matches(isDisplayed()));
-        Thread.sleep(3000);
         onView(withId(R.id.rv_movies)).perform(RecyclerViewActions.actionOnItem(
                 hasDescendant(withText("Wonder Woman 1984")), click()));
         onView(withId(R.id.tvTitleDetails)).check(matches(isDisplayed()));
         onView(withId(R.id.tvTitleDetails)).check(matches(withText("Wonder Woman 1984")));
+
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 }

@@ -2,12 +2,15 @@ package com.abdurrahman.movies.ui.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateUtils;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
 
+import androidx.test.espresso.IdlingPolicies;
 import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.GeneralClickAction;
@@ -19,6 +22,7 @@ import com.abdurrahman.movies.R;
 import com.abdurrahman.movies.data.source.local.entity.TVShowEntity;
 import com.abdurrahman.movies.data.source.remote.BaseUrl;
 import com.abdurrahman.movies.utils.DataDummyTest;
+import com.abdurrahman.movies.utils.ElapsedTimeIdlingResource;
 import com.abdurrahman.movies.utils.EspressoIdlingResource;
 import com.abdurrahman.movies.utils.RestServiceTestHelper;
 
@@ -27,6 +31,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -63,6 +69,13 @@ public class DetailTvShowsActivityTest {
 
     @Test
     public void loadTVShowsDetails() throws Exception {
+        // Make sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(5 * 2, TimeUnit.SECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5 * 2, TimeUnit.SECONDS);
+
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(DateUtils.SECOND_IN_MILLIS * 5);
+        IdlingRegistry.getInstance().register(idlingResource);
+
         String fileName = "200_tv_show.json";
         webServer.enqueue(new MockResponse()
                 .setResponseCode(200)
@@ -72,7 +85,7 @@ public class DetailTvShowsActivityTest {
         Intent intent = new Intent(context, DetailMovieActivity.class);
         intent.putExtra(DetailMovieActivity.EXTRA_DETAILS_TVSHOW, dummyTvShowEntity.getTvShowId());
         activityTestRule.launchActivity(intent);
-        Thread.sleep(2000);
+
         onView(withId(R.id.tvTitleDetails)).check(matches(isDisplayed()));
         onView(withId(R.id.tvTitleDetails)).check(matches(withText(dummyTvShowEntity.getTitle())));
         onView(withId(R.id.tvReleaseDate)).check(matches(isDisplayed()));
@@ -83,6 +96,8 @@ public class DetailTvShowsActivityTest {
         onView(withId(R.id.tvRatings)).check(matches(withText(dummyTvShowEntity.getRating())));
         onView(withId(R.id.ratingBar)).check(matches(isDisplayed()));
         onView(withId(R.id.ratingBar)).perform(setRating(dummyTvShowEntity.getRating()));
+
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     private static ViewAction setRating(final String rating) {
